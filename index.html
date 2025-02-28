@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Break-Even Calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #171b29;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      background-color: #1e2436;
+      border-radius: 15px;
+      padding: 30px;
+      width: 100%;
+      max-width: 1200px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    h1 {
+      text-align: center;
+      color: #3498db;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+    
+    .calculator-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .sliders-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .slider-container {
+      background-color: #10141f;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    
+    .slider-label {
+      display: block;
+      margin-bottom: 15px;
+      color: #3498db;
+      font-size: 14px;
+    }
+    
+    .slider-input-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .slider {
+      flex-grow: 1;
+      -webkit-appearance: none;
+      height: 5px;
+      background: linear-gradient(to right, #3498db, #9b59b6);
+      border-radius: 5px;
+      outline: none;
+    }
+    
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #3498db;
+      cursor: pointer;
+    }
+    
+    .value-input {
+      background-color: #10141f;
+      border: 1px solid #3498db;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
+      width: 80px;
+      text-align: center;
+    }
+    
+    .results-section {
+      background-color: #10141f;
+      border-radius: 10px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 300px;
+    }
+    
+    .results-title {
+      color: #3498db;
+      margin-bottom: 30px;
+      font-size: 24px;
+      text-align: center;
+    }
+    
+    .results-value {
+      font-size: 80px;
+      font-weight: bold;
+      color: #3498db;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .not-feasible {
+      color: #e74c3c;
+      font-size: 40px;
+    }
+    
+    .profit-text {
+      font-size: 18px;
+      margin-top: 15px;
+      color: #3498db;
+    }
+    
+    .chart-section {
+      background-color: #10141f;
+      border-radius: 10px;
+      padding: 10px;
+      position: relative;
+      min-height: 300px;
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .btn {
+      background-color: #10141f;
+      color: #3498db;
+      border: 1px solid #3498db;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn:hover {
+      background-color: #3498db;
+      color: white;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Break-Even Calculator</h1>
+    <div class="calculator-layout">
+      <div class="sliders-section">
+        <div class="slider-container">
+          <label class="slider-label">Cost to Purchase Brace ($)</label>
+          <div class="slider-input-group">
+            <input type="range" min="100" max="300" value="200" class="slider" id="purchasePriceSlider">
+            <input type="text" class="value-input" id="purchasePriceInput" value="200">
+          </div>
+        </div>
+        
+        <div class="slider-container">
+          <label class="slider-label">Braces per Month</label>
+          <div class="slider-input-group">
+            <input type="range" min="1" max="30" value="5" class="slider" id="bracesPerMonthSlider">
+            <input type="text" class="value-input" id="bracesPerMonthInput" value="5">
+          </div>
+        </div>
+        
+        <div class="slider-container">
+          <label class="slider-label">Initial Investment ($)</label>
+          <div class="slider-input-group">
+            <input type="range" min="500" max="10000" value="4000" class="slider" id="initialInvestmentSlider">
+            <input type="text" class="value-input" id="initialInvestmentInput" value="4000">
+          </div>
+        </div>
+        
+        <div class="slider-container">
+          <label class="slider-label">Internal Cost per Brace ($)</label>
+          <div class="slider-input-group">
+            <input type="range" min="5" max="200" value="50" class="slider" id="internalCostSlider">
+            <input type="text" class="value-input" id="internalCostInput" value="50">
+          </div>
+        </div>
+        
+        <div class="slider-container">
+          <label class="slider-label">Recurring Monthly Overhead ($)</label>
+          <div class="slider-input-group">
+            <input type="range" min="0" max="150" value="50" class="slider" id="monthlyOverheadSlider">
+            <input type="text" class="value-input" id="monthlyOverheadInput" value="50">
+          </div>
+        </div>
+      </div>
+      
+      <div class="results-section">
+        <div class="results-title">Break-Even Analysis</div>
+        <div>Months to Break Even:</div>
+        <div class="results-value" id="breakEvenMonths">5</div>
+        <div class="profit-text" id="monthlyProfit">Monthly Profit: $960</div>
+      </div>
+      
+      <div class="chart-section">
+        <canvas id="breakEvenChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="button-container">
+      <button class="btn" id="saveButton">Save Current Values</button>
+      <button class="btn" id="restoreButton">Restore Saved Values</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script>
+    // Set up all input and slider elements
+    const purchasePriceSlider = document.getElementById('purchasePriceSlider');
+    const purchasePriceInput = document.getElementById('purchasePriceInput');
+    const bracesPerMonthSlider = document.getElementById('bracesPerMonthSlider');
+    const bracesPerMonthInput = document.getElementById('bracesPerMonthInput');
+    const initialInvestmentSlider = document.getElementById('initialInvestmentSlider');
+    const initialInvestmentInput = document.getElementById('initialInvestmentInput');
+    const internalCostSlider = document.getElementById('internalCostSlider');
+    const internalCostInput = document.getElementById('internalCostInput');
+    const monthlyOverheadSlider = document.getElementById('monthlyOverheadSlider');
+    const monthlyOverheadInput = document.getElementById('monthlyOverheadInput');
+    
+    const breakEvenMonthsDisplay = document.getElementById('breakEvenMonths');
+    const monthlyProfitDisplay = document.getElementById('monthlyProfit');
+    
+    const saveButton = document.getElementById('saveButton');
+    const restoreButton = document.getElementById('restoreButton');
+    
+    // Chart setup
+    const ctx = document.getElementById('breakEvenChart').getContext('2d');
+    let breakEvenChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Cumulative Profit/Loss',
+          data: [],
+          borderColor: '#3498db',
+          borderWidth: 3,
+          pointBackgroundColor: '#3498db',
+          pointRadius: 4,
+          tension: 0.1,
+          fill: true,
+          backgroundColor: function(context) {
+            const chart = context.chart;
+            const {ctx, chartArea} = chart;
+            
+            if (!chartArea) {
+              // This case happens on initial chart load
+              return null;
+            }
+            
+            // Create gradient from top to bottom
+            const gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
+            
+            // Find the zero point
+            const datasets = chart.data.datasets;
+            const data = datasets[0].data;
+            
+			if (data.every(val => val < 0)) {
+			  // All values are negative
+			  return 'rgba(231, 76, 60, 0.2)'; // Red with opacity
+			} else if (data.every(val => val >= 0)) {
+			  // All values are positive
+			  return 'rgba(46, 204, 113, 0.2)'; // Green with opacity
+			} else {
+			  // We have a mix of positive and negative values
+			  // Find the y-coordinate of the zero point in the chart
+			  const yAxis = chart.scales.y;
+			  const zeroY = yAxis.getPixelForValue(0);
+			  
+			  // Calculate positions for the gradient
+			  const gradientTop = chartArea.top;
+			  const gradientBottom = chartArea.bottom;
+			  const zeroPoint = (zeroY - gradientTop) / (gradientBottom - gradientTop);
+			  
+			  // Add gradient stops - use a single transition point at zero
+			  gradient.addColorStop(0, 'rgba(46, 204, 113, 0.2)'); // Green at top
+			  gradient.addColorStop(zeroPoint - 0.001, 'rgba(46, 204, 113, 0.2)'); // Green right above zero
+			  gradient.addColorStop(zeroPoint, 'rgba(231, 76, 60, 0.2)'); // Red at zero and below
+			  gradient.addColorStop(1, 'rgba(231, 76, 60, 0.2)'); // Red at bottom
+			  
+			  return gradient;
+			}
+          }
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.7)',
+              callback: function(value) {
+                return '$' + value.toLocaleString();
+              }
+            },
+            title: {
+              display: true,
+              text: 'Cumulative Profit/Loss',
+              color: 'rgba(255, 255, 255, 0.7)'
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.7)'
+            },
+            title: {
+              display: true,
+              text: 'Months',
+              color: 'rgba(255, 255, 255, 0.7)'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+    
+    // Save/restore functionality
+    let savedValues = {
+      purchasePrice: 200,
+      bracesPerMonth: 5,
+      initialInvestment: 4000,
+      internalCost: 50,
+      monthlyOverhead: 50 // Updated default to 50
+    };
+    
+    saveButton.addEventListener('click', () => {
+      savedValues = {
+        purchasePrice: parseInt(purchasePriceInput.value),
+        bracesPerMonth: parseInt(bracesPerMonthInput.value),
+        initialInvestment: parseInt(initialInvestmentInput.value),
+        internalCost: parseInt(internalCostInput.value),
+        monthlyOverhead: parseInt(monthlyOverheadInput.value)
+      };
+      alert('Values saved!');
+    });
+    
+    restoreButton.addEventListener('click', () => {
+      purchasePriceSlider.value = savedValues.purchasePrice;
+      purchasePriceInput.value = savedValues.purchasePrice;
+      bracesPerMonthSlider.value = savedValues.bracesPerMonth;
+      bracesPerMonthInput.value = savedValues.bracesPerMonth;
+      initialInvestmentSlider.value = savedValues.initialInvestment;
+      initialInvestmentInput.value = savedValues.initialInvestment;
+      internalCostSlider.value = savedValues.internalCost;
+      internalCostInput.value = savedValues.internalCost;
+      monthlyOverheadSlider.value = savedValues.monthlyOverhead;
+      monthlyOverheadInput.value = savedValues.monthlyOverhead;
+      
+      calculateBreakEven();
+    });
+    
+    // Sync slider and input values
+    function syncSliderInput(slider, input) {
+      slider.addEventListener('input', () => {
+        input.value = slider.value;
+        calculateBreakEven();
+      });
+      
+      input.addEventListener('change', () => {
+        let value = parseInt(input.value);
+        const min = parseInt(slider.min);
+        const max = parseInt(slider.max);
+        
+        if (isNaN(value)) {
+          value = parseInt(slider.value);
+        } else {
+          value = Math.max(min, Math.min(max, value));
+        }
+        
+        input.value = value;
+        slider.value = value;
+        calculateBreakEven();
+      });
+    }
+    
+    syncSliderInput(purchasePriceSlider, purchasePriceInput);
+    syncSliderInput(bracesPerMonthSlider, bracesPerMonthInput);
+    syncSliderInput(initialInvestmentSlider, initialInvestmentInput);
+    syncSliderInput(internalCostSlider, internalCostInput);
+    syncSliderInput(monthlyOverheadSlider, monthlyOverheadInput);
+    
+    // Calculate break-even point and update display
+    function calculateBreakEven() {
+      const purchasePrice = parseInt(purchasePriceInput.value);
+      const bracesPerMonth = parseInt(bracesPerMonthInput.value);
+      const initialInvestment = parseInt(initialInvestmentInput.value);
+      const internalCost = parseInt(internalCostInput.value);
+      const monthlyOverhead = parseInt(monthlyOverheadInput.value);
+      
+      // Monthly revenue and direct costs
+      const revenuePerMonth = purchasePrice * bracesPerMonth;
+      const directCostsPerMonth = internalCost * bracesPerMonth;
+      
+      // Monthly profit = (revenue - direct costs - overhead) per month
+      const monthlyProfit = revenuePerMonth - directCostsPerMonth - monthlyOverhead;
+      
+      // Check if business model is feasible (now includes overhead costs)
+      if (monthlyProfit <= 0) {
+        breakEvenMonthsDisplay.textContent = "Not Feasible";
+        breakEvenMonthsDisplay.classList.add('not-feasible');
+        
+        if (internalCost >= purchasePrice) {
+          monthlyProfitDisplay.textContent = "Cost exceeds selling price";
+        } else {
+          monthlyProfitDisplay.textContent = "Overhead exceeds margin";
+        }
+        
+        // Show negative profit trend in chart
+        updateNotFeasibleChart(initialInvestment, monthlyProfit);
+        return;
+      }
+      
+      // Remove not-feasible class if present
+      breakEvenMonthsDisplay.classList.remove('not-feasible');
+      
+      // Break-even point (months) = Initial Investment / Monthly Profit
+      const breakEvenMonths = Math.ceil(initialInvestment / monthlyProfit);
+      
+      // Update display
+      breakEvenMonthsDisplay.textContent = breakEvenMonths;
+      monthlyProfitDisplay.textContent = `Monthly Profit: $${monthlyProfit}`;
+      
+      // Update chart
+      updateChart(initialInvestment, monthlyProfit, breakEvenMonths);
+    }
+    
+    function updateChart(initialInvestment, monthlyProfit, breakEvenMonths) {
+      const months = Math.max(10, breakEvenMonths + 3);
+      const labels = Array.from({length: months + 1}, (_, i) => i);
+      const data = [];
+      
+      for (let i = 0; i <= months; i++) {
+        const profit = -initialInvestment + (monthlyProfit * i);
+        data.push(profit);
+      }
+      
+      breakEvenChart.data.labels = labels;
+      breakEvenChart.data.datasets[0].data = data;
+      breakEvenChart.update();
+    }
+    
+    function updateNotFeasibleChart(initialInvestment, monthlyProfit) {
+      const months = 12;
+      const labels = Array.from({length: months + 1}, (_, i) => i);
+      const data = [];
+      
+      for (let i = 0; i <= months; i++) {
+        const profit = -initialInvestment + (monthlyProfit * i);
+        data.push(profit);
+      }
+      
+      breakEvenChart.data.labels = labels;
+      breakEvenChart.data.datasets[0].data = data;
+      breakEvenChart.update();
+    }
+    
+    // Initial calculation
+    calculateBreakEven();
+  </script>
+</body>
+</html>
