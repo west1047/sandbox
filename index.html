@@ -254,106 +254,76 @@
     const saveButton = document.getElementById('saveButton');
     const restoreButton = document.getElementById('restoreButton');
     
-    // Chart setup
-    const ctx = document.getElementById('breakEvenChart').getContext('2d');
-    let breakEvenChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Cumulative Profit/Loss',
-          data: [],
-          borderColor: '#3498db',
-          borderWidth: 3,
-          pointBackgroundColor: '#3498db',
-          pointRadius: 4,
-          tension: 0.1,
-          fill: true,
-          backgroundColor: function(context) {
-            const chart = context.chart;
-            const {ctx, chartArea} = chart;
-            
-            if (!chartArea) {
-              // This case happens on initial chart load
-              return null;
-            }
-            
-            // Create gradient from top to bottom
-            const gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
-            
-            // Find the zero point
-            const datasets = chart.data.datasets;
-            const data = datasets[0].data;
-            
-			if (data.every(val => val < 0)) {
-			  // All values are negative
-			  return 'rgba(231, 76, 60, 0.2)'; // Red with opacity
-			} else if (data.every(val => val >= 0)) {
-			  // All values are positive
-			  return 'rgba(46, 204, 113, 0.2)'; // Green with opacity
-			} else {
-			  // We have a mix of positive and negative values
-			  // Find the y-coordinate of the zero point in the chart
-			  const yAxis = chart.scales.y;
-			  const zeroY = yAxis.getPixelForValue(0);
-			  
-			  // Calculate positions for the gradient
-			  const gradientTop = chartArea.top;
-			  const gradientBottom = chartArea.bottom;
-			  const zeroPoint = (zeroY - gradientTop) / (gradientBottom - gradientTop);
-			  
-			  // Add gradient stops - use a single transition point at zero
-			  gradient.addColorStop(0, 'rgba(46, 204, 113, 0.2)'); // Green at top
-			  gradient.addColorStop(zeroPoint - 0.001, 'rgba(46, 204, 113, 0.2)'); // Green right above zero
-			  gradient.addColorStop(zeroPoint, 'rgba(231, 76, 60, 0.2)'); // Red at zero and below
-			  gradient.addColorStop(1, 'rgba(231, 76, 60, 0.2)'); // Red at bottom
-			  
-			  return gradient;
-			}
-          }
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)'
-            },
-            ticks: {
-              color: 'rgba(255, 255, 255, 0.7)',
-              callback: function(value) {
-                return '$' + value.toLocaleString();
-              }
-            },
-            title: {
-              display: true,
-              text: 'Cumulative Profit/Loss',
-              color: 'rgba(255, 255, 255, 0.7)'
-            }
-          },
-          x: {
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)'
-            },
-            ticks: {
-              color: 'rgba(255, 255, 255, 0.7)'
-            },
-            title: {
-              display: true,
-              text: 'Months',
-              color: 'rgba(255, 255, 255, 0.7)'
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            display: false
-          }
-        }
-      }
-    });
+	// Chart setup
+	const ctx = document.getElementById('breakEvenChart').getContext('2d');
+	let breakEvenChart = new Chart(ctx, {
+	  type: 'line',
+	  data: {
+	    labels: [],
+	    datasets: [{
+	      label: 'Cumulative Profit/Loss',
+	      data: [],
+	      borderColor: '#3498db',
+	      borderWidth: 3,
+	      pointBackgroundColor: '#3498db',
+	      pointRadius: 4,
+	      tension: 0.1,
+	      fill: true,
+	      backgroundColor: 'rgba(52, 152, 219, 0.2)' // Single blue color with opacity
+	    }]
+	  },
+	  options: {
+	    responsive: true,
+	    maintainAspectRatio: false,
+	    scales: {
+	      y: {
+		grid: {
+		  color: function(context) {
+		    if (context.tick.value === 0) {
+		      return 'rgba(255, 255, 255, 0.8)'; // Bold white line at zero
+		    }
+		    return 'rgba(255, 255, 255, 0.1)'; // Regular grid lines
+		  },
+		  lineWidth: function(context) {
+		    if (context.tick.value === 0) {
+		      return 2; // Thicker line for zero
+		    }
+		    return 1; // Regular grid line width
+		  }
+		},
+		ticks: {
+		  color: 'rgba(255, 255, 255, 0.7)',
+		  callback: function(value) {
+		    return '$' + value.toLocaleString();
+		  }
+		},
+		title: {
+		  display: true,
+		  text: 'Cumulative Profit/Loss',
+		  color: 'rgba(255, 255, 255, 0.7)'
+		}
+	      },
+	      x: {
+		grid: {
+		  color: 'rgba(255, 255, 255, 0.1)'
+		},
+		ticks: {
+		  color: 'rgba(255, 255, 255, 0.7)'
+		},
+		title: {
+		  display: true,
+		  text: 'Months',
+		  color: 'rgba(255, 255, 255, 0.7)'
+		}
+	      }
+	    },
+	    plugins: {
+	      legend: {
+		display: false
+	      }
+	    }
+	  }
+	});
     
     // Save/restore functionality
     let savedValues = {
