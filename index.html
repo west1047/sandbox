@@ -10,7 +10,7 @@
       padding: 0;
       box-sizing: border-box;
       font-family: Arial, sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.94rem;
     }
     
     body {
@@ -20,69 +20,69 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 5px;
+      padding: 2px;
     }
     
     .container {
       background-color: #1e2436;
-      border-radius: 8px;
-      padding: 8px;
+      border-radius: 10px;
+      padding: 10px;
       width: 100%;
-      max-width: 300px;
-      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+      max-width: 375px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     }
     
     h1 {
       text-align: center;
       color: #3498db;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
+      margin-bottom: 10px;
+      font-size: 1.13rem;
     }
     
     .calculator-layout {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 5px;
+      gap: 6px;
     }
     
     .sliders-section {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
     }
     
     .slider-container {
       background-color: #10141f;
-      padding: 5px;
-      border-radius: 5px;
+      padding: 6px;
+      border-radius: 6px;
     }
     
     .slider-label {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
       color: #3498db;
-      font-size: 0.7rem;
+      font-size: 0.88rem;
     }
     
     .slider-input-group {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
     
     .slider {
       flex-grow: 1;
       -webkit-appearance: none;
-      height: 3px;
+      height: 4px;
       background: linear-gradient(to right, #3498db, #9b59b6);
-      border-radius: 3px;
+      border-radius: 4px;
       outline: none;
     }
     
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 10px;
-      height: 10px;
+      width: 13px;
+      height: 13px;
       border-radius: 50%;
       background: #3498db;
       cursor: pointer;
@@ -92,74 +92,74 @@
       background-color: #10141f;
       border: 1px solid #3498db;
       color: white;
-      padding: 2px 4px;
-      border-radius: 3px;
-      width: 40px;
+      padding: 3px 5px;
+      border-radius: 4px;
+      width: 50px;
       text-align: center;
-      font-size: 0.7rem;
+      font-size: 0.88rem;
     }
     
     .results-section {
       background-color: #10141f;
-      border-radius: 5px;
-      padding: 8px;
+      border-radius: 6px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 75px;
+      min-height: 94px;
     }
     
     .results-title {
       color: #3498db;
-      margin-bottom: 5px;
-      font-size: 0.8rem;
+      margin-bottom: 6px;
+      font-size: 1rem;
       text-align: center;
     }
     
     .results-value {
-      font-size: 1.5rem;
+      font-size: 1.88rem;
       font-weight: bold;
       color: #3498db;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       text-align: center;
     }
     
     .not-feasible {
       color: #e74c3c;
-      font-size: 1rem;
+      font-size: 1.25rem;
     }
     
     .profit-text {
-      font-size: 0.7rem;
-      margin-top: 3px;
+      font-size: 0.88rem;
+      margin-top: 4px;
       color: #3498db;
     }
     
     .chart-section {
       background-color: #10141f;
-      border-radius: 5px;
-      padding: 5px;
+      border-radius: 6px;
+      padding: 6px;
       position: relative;
-      height: 150px; /* Doubled from 75px to 150px */
+      height: 188px;
     }
     
     .button-container {
       display: flex;
       justify-content: center;
-      gap: 5px;
-      margin-top: 5px;
+      gap: 6px;
+      margin-top: 6px;
     }
     
     .btn {
       background-color: #10141f;
       color: #3498db;
       border: 1px solid #3498db;
-      padding: 3px 5px;
-      border-radius: 3px;
+      padding: 4px 6px;
+      border-radius: 4px;
       cursor: pointer;
       transition: all 0.3s;
-      font-size: 0.7rem;
+      font-size: 0.88rem;
     }
     
     .btn:hover {
@@ -221,7 +221,7 @@
       
       <div class="results-section">
         <div class="results-title">Break-Even Analysis</div>
-        <div style="font-size: 0.7rem;">Months to Break Even:</div>
+        <div style="font-size: 0.88rem;">Months to Break Even:</div>
         <div class="results-value" id="breakEvenMonths">5</div>
         <div class="profit-text" id="monthlyProfit">Monthly Profit: $960</div>
       </div>
@@ -267,9 +267,9 @@
           label: 'Cumulative Profit/Loss',
           data: [],
           borderColor: '#3498db',
-          borderWidth: 2,
+          borderWidth: 2.5,
           pointBackgroundColor: '#3498db',
-          pointRadius: 2,
+          pointRadius: 2.5,
           tension: 0.1,
           fill: true,
           backgroundColor: 'rgba(52, 152, 219, 0.2)'
@@ -289,15 +289,15 @@
               },
               lineWidth: function(context) {
                 if (context.tick.value === 0) {
-                  return 1.5;
+                  return 1.9;
                 }
-                return 0.5;
+                return 0.6;
               }
             },
             ticks: {
               color: 'rgba(255, 255, 255, 0.7)',
               font: {
-                size: 8
+                size: 10
               },
               callback: function(value) {
                 return '$' + value.toLocaleString();
@@ -310,12 +310,12 @@
           x: {
             grid: {
               color: 'rgba(255, 255, 255, 0.1)',
-              lineWidth: 0.5
+              lineWidth: 0.6
             },
             ticks: {
               color: 'rgba(255, 255, 255, 0.7)',
               font: {
-                size: 8
+                size: 10
               }
             },
             title: {
@@ -330,10 +330,10 @@
           tooltip: {
             enabled: true,
             titleFont: {
-              size: 10
+              size: 12.5
             },
             bodyFont: {
-              size: 9
+              size: 11.25
             },
             callbacks: {
               label: function(context) {
