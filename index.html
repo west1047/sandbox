@@ -22,6 +22,16 @@
       padding: 20px;
     }
     
+    .scaling-container {
+      transform: scale(0.5);
+      transform-origin: center;
+      width: 200%;
+      height: 200%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
     .container {
       background-color: #1e2436;
       border-radius: 15px;
@@ -171,66 +181,68 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Break-Even Calculator</h1>
-    <div class="calculator-layout">
-      <div class="sliders-section">
-        <div class="slider-container">
-          <label class="slider-label">Cost to Purchase Brace ($)</label>
-          <div class="slider-input-group">
-            <input type="range" min="100" max="300" value="200" class="slider" id="purchasePriceSlider">
-            <input type="text" class="value-input" id="purchasePriceInput" value="200">
+  <div class="scaling-container">
+    <div class="container">
+      <h1>Break-Even Calculator</h1>
+      <div class="calculator-layout">
+        <div class="sliders-section">
+          <div class="slider-container">
+            <label class="slider-label">Cost to Purchase Brace ($)</label>
+            <div class="slider-input-group">
+              <input type="range" min="100" max="300" value="200" class="slider" id="purchasePriceSlider">
+              <input type="text" class="value-input" id="purchasePriceInput" value="200">
+            </div>
+          </div>
+          
+          <div class="slider-container">
+            <label class="slider-label">Braces per Month</label>
+            <div class="slider-input-group">
+              <input type="range" min="1" max="30" value="5" class="slider" id="bracesPerMonthSlider">
+              <input type="text" class="value-input" id="bracesPerMonthInput" value="5">
+            </div>
+          </div>
+          
+          <div class="slider-container">
+            <label class="slider-label">Initial Investment ($)</label>
+            <div class="slider-input-group">
+              <input type="range" min="500" max="10000" value="4000" class="slider" id="initialInvestmentSlider">
+              <input type="text" class="value-input" id="initialInvestmentInput" value="4000">
+            </div>
+          </div>
+          
+          <div class="slider-container">
+            <label class="slider-label">Internal Cost per Brace ($)</label>
+            <div class="slider-input-group">
+              <input type="range" min="5" max="200" value="50" class="slider" id="internalCostSlider">
+              <input type="text" class="value-input" id="internalCostInput" value="50">
+            </div>
+          </div>
+          
+          <div class="slider-container">
+            <label class="slider-label">Recurring Monthly Overhead ($)</label>
+            <div class="slider-input-group">
+              <input type="range" min="0" max="150" value="50" class="slider" id="monthlyOverheadSlider">
+              <input type="text" class="value-input" id="monthlyOverheadInput" value="50">
+            </div>
           </div>
         </div>
         
-        <div class="slider-container">
-          <label class="slider-label">Braces per Month</label>
-          <div class="slider-input-group">
-            <input type="range" min="1" max="30" value="5" class="slider" id="bracesPerMonthSlider">
-            <input type="text" class="value-input" id="bracesPerMonthInput" value="5">
-          </div>
+        <div class="results-section">
+          <div class="results-title">Break-Even Analysis</div>
+          <div>Months to Break Even:</div>
+          <div class="results-value" id="breakEvenMonths">5</div>
+          <div class="profit-text" id="monthlyProfit">Monthly Profit: $960</div>
         </div>
         
-        <div class="slider-container">
-          <label class="slider-label">Initial Investment ($)</label>
-          <div class="slider-input-group">
-            <input type="range" min="500" max="10000" value="4000" class="slider" id="initialInvestmentSlider">
-            <input type="text" class="value-input" id="initialInvestmentInput" value="4000">
-          </div>
-        </div>
-        
-        <div class="slider-container">
-          <label class="slider-label">Internal Cost per Brace ($)</label>
-          <div class="slider-input-group">
-            <input type="range" min="5" max="200" value="50" class="slider" id="internalCostSlider">
-            <input type="text" class="value-input" id="internalCostInput" value="50">
-          </div>
-        </div>
-        
-        <div class="slider-container">
-          <label class="slider-label">Recurring Monthly Overhead ($)</label>
-          <div class="slider-input-group">
-            <input type="range" min="0" max="150" value="50" class="slider" id="monthlyOverheadSlider">
-            <input type="text" class="value-input" id="monthlyOverheadInput" value="50">
-          </div>
+        <div class="chart-section">
+          <canvas id="breakEvenChart"></canvas>
         </div>
       </div>
       
-      <div class="results-section">
-        <div class="results-title">Break-Even Analysis</div>
-        <div>Months to Break Even:</div>
-        <div class="results-value" id="breakEvenMonths">5</div>
-        <div class="profit-text" id="monthlyProfit">Monthly Profit: $960</div>
+      <div class="button-container">
+        <button class="btn" id="saveButton">Save Current Values</button>
+        <button class="btn" id="restoreButton">Restore Saved Values</button>
       </div>
-      
-      <div class="chart-section">
-        <canvas id="breakEvenChart"></canvas>
-      </div>
-    </div>
-    
-    <div class="button-container">
-      <button class="btn" id="saveButton">Save Current Values</button>
-      <button class="btn" id="restoreButton">Restore Saved Values</button>
     </div>
   </div>
 
