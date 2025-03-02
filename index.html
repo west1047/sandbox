@@ -10,6 +10,7 @@
       padding: 0;
       box-sizing: border-box;
       font-family: Arial, sans-serif;
+      font-size: 0.75rem;
     }
     
     body {
@@ -18,50 +19,49 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 50vh;
-      padding: 10px;
+      min-height: 100vh;
+      padding: 5px;
     }
     
     .container {
       background-color: #1e2436;
       border-radius: 8px;
-      padding: 15px;
+      padding: 8px;
       width: 100%;
-      max-width: 600px;
+      max-width: 300px;
       box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
     }
     
     h1 {
       text-align: center;
       color: #3498db;
-      margin-bottom: 15px;
-      font-size: 14px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
     }
     
     .calculator-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: 1fr;
+      gap: 5px;
     }
     
     .sliders-section {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 5px;
     }
     
     .slider-container {
       background-color: #10141f;
-      padding: 10px;
+      padding: 5px;
       border-radius: 5px;
     }
     
     .slider-label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       color: #3498db;
-      font-size: 7px;
-      white-space: nowrap;
+      font-size: 0.7rem;
     }
     
     .slider-input-group {
@@ -81,8 +81,8 @@
     
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 9px;
-      height: 9px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #3498db;
       cursor: pointer;
@@ -92,48 +92,47 @@
       background-color: #10141f;
       border: 1px solid #3498db;
       color: white;
-      padding: 4px 6px;
+      padding: 2px 4px;
       border-radius: 3px;
       width: 40px;
       text-align: center;
-      font-size: 7px;
+      font-size: 0.7rem;
     }
     
     .results-section {
       background-color: #10141f;
       border-radius: 5px;
-      padding: 15px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 150px;
-      font-size: 7px;
+      min-height: 75px;
     }
     
     .results-title {
       color: #3498db;
-      margin-bottom: 15px;
-      font-size: 12px;
+      margin-bottom: 5px;
+      font-size: 0.8rem;
       text-align: center;
     }
     
     .results-value {
-      font-size: 40px;
+      font-size: 1.5rem;
       font-weight: bold;
       color: #3498db;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       text-align: center;
     }
     
     .not-feasible {
       color: #e74c3c;
-      font-size: 20px;
+      font-size: 1rem;
     }
     
     .profit-text {
-      font-size: 9px;
-      margin-top: 8px;
+      font-size: 0.7rem;
+      margin-top: 3px;
       color: #3498db;
     }
     
@@ -142,25 +141,25 @@
       border-radius: 5px;
       padding: 5px;
       position: relative;
-      min-height: 150px;
+      height: 75px;
     }
     
     .button-container {
       display: flex;
       justify-content: center;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 5px;
+      margin-top: 5px;
     }
     
     .btn {
       background-color: #10141f;
       color: #3498db;
       border: 1px solid #3498db;
-      padding: 5px 10px;
+      padding: 3px 5px;
       border-radius: 3px;
       cursor: pointer;
       transition: all 0.3s;
-      font-size: 7px;
+      font-size: 0.7rem;
     }
     
     .btn:hover {
@@ -222,7 +221,7 @@
       
       <div class="results-section">
         <div class="results-title">Break-Even Analysis</div>
-        <div>Months to Break Even:</div>
+        <div style="font-size: 0.7rem;">Months to Break Even:</div>
         <div class="results-value" id="breakEvenMonths">5</div>
         <div class="profit-text" id="monthlyProfit">Monthly Profit: $960</div>
       </div>
@@ -233,8 +232,8 @@
     </div>
     
     <div class="button-container">
-      <button class="btn" id="saveButton">Save Current Values</button>
-      <button class="btn" id="restoreButton">Restore Saved Values</button>
+      <button class="btn" id="saveButton">Save Values</button>
+      <button class="btn" id="restoreButton">Restore Values</button>
     </div>
   </div>
 
@@ -258,96 +257,93 @@
     const saveButton = document.getElementById('saveButton');
     const restoreButton = document.getElementById('restoreButton');
     
-	// Chart setup
-	const ctx = document.getElementById('breakEvenChart').getContext('2d');
-	let breakEvenChart = new Chart(ctx, {
-	  type: 'line',
-	  data: {
-	    labels: [],
-	    datasets: [{
-	      label: 'Cumulative Profit/Loss',
-	      data: [],
-	      borderColor: '#3498db',
-	      borderWidth: 2,
-	      pointBackgroundColor: '#3498db',
-	      pointRadius: 2,
-	      tension: 0.1,
-	      fill: true,
-	      backgroundColor: 'rgba(52, 152, 219, 0.2)' // Single blue color with opacity
-	    }]
-	  },
-	  options: {
-	    responsive: true,
-	    maintainAspectRatio: false,
-            scales: {
-              y: {
-                grid: {
-                  color: function(context) {
-                    if (context.tick.value === 0) {
-                      return 'rgba(255, 255, 255, 0.8)'; // Bold white line at zero
-                    }
-                    return 'rgba(255, 255, 255, 0.1)'; // Regular grid lines
-                  },
-                  lineWidth: function(context) {
-                    if (context.tick.value === 0) {
-                      return 1; // Thicker line for zero, but smaller
-                    }
-                    return 0.5; // Regular grid line width
-                  }
-                },
-                ticks: {
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  font: {
-                    size: 6
-                  },
-                  callback: function(value) {
-                    return '$' + value.toLocaleString();
-                  }
-                },
-                title: {
-                  display: true,
-                  text: 'Cumulative Profit/Loss',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  font: {
-                    size: 6
-                  }
+    // Chart setup
+    const ctx = document.getElementById('breakEvenChart').getContext('2d');
+    let breakEvenChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Cumulative Profit/Loss',
+          data: [],
+          borderColor: '#3498db',
+          borderWidth: 2,
+          pointBackgroundColor: '#3498db',
+          pointRadius: 2,
+          tension: 0.1,
+          fill: true,
+          backgroundColor: 'rgba(52, 152, 219, 0.2)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            grid: {
+              color: function(context) {
+                if (context.tick.value === 0) {
+                  return 'rgba(255, 255, 255, 0.8)';
                 }
+                return 'rgba(255, 255, 255, 0.1)';
               },
-              x: {
-                grid: {
-                  color: 'rgba(255, 255, 255, 0.1)'
-                },
-                ticks: {
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  font: {
-                    size: 6
-                  }
-                },
-                title: {
-                  display: true,
-                  text: 'Months',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  font: {
-                    size: 6
-                  }
+              lineWidth: function(context) {
+                if (context.tick.value === 0) {
+                  return 1.5;
                 }
+                return 0.5;
               }
             },
-            plugins: {
-              legend: {
-                display: false
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.7)',
+              font: {
+                size: 8
               },
-              tooltip: {
-                titleFont: {
-                  size: 8
-                },
-                bodyFont: {
-                  size: 8
-                }
+              callback: function(value) {
+                return '$' + value.toLocaleString();
+              }
+            },
+            title: {
+              display: false
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)',
+              lineWidth: 0.5
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.7)',
+              font: {
+                size: 8
+              }
+            },
+            title: {
+              display: false
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            enabled: true,
+            titleFont: {
+              size: 10
+            },
+            bodyFont: {
+              size: 9
+            },
+            callbacks: {
+              label: function(context) {
+                return '$' + context.parsed.y.toLocaleString();
               }
             }
-	  }
-	});
+          }
+        }
+      }
+    });
     
     // Save/restore functionality
     let savedValues = {
@@ -355,7 +351,7 @@
       bracesPerMonth: 5,
       initialInvestment: 4000,
       internalCost: 50,
-      monthlyOverhead: 50 // Updated default to 50
+      monthlyOverhead: 50
     };
     
     saveButton.addEventListener('click', () => {
