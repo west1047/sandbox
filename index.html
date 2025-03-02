@@ -18,80 +18,71 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    
-    .scaling-container {
-      transform: scale(0.5);
-      transform-origin: center;
-      width: 200%;
-      height: 200%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      min-height: 50vh;
+      padding: 10px;
     }
     
     .container {
       background-color: #1e2436;
-      border-radius: 15px;
-      padding: 30px;
+      border-radius: 8px;
+      padding: 15px;
       width: 100%;
-      max-width: 1200px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
     }
     
     h1 {
       text-align: center;
       color: #3498db;
-      margin-bottom: 30px;
-      font-size: 28px;
+      margin-bottom: 15px;
+      font-size: 14px;
     }
     
     .calculator-layout {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
+      gap: 10px;
     }
     
     .sliders-section {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 10px;
     }
     
     .slider-container {
       background-color: #10141f;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 10px;
+      border-radius: 5px;
     }
     
     .slider-label {
       display: block;
-      margin-bottom: 15px;
+      margin-bottom: 8px;
       color: #3498db;
-      font-size: 14px;
+      font-size: 7px;
+      white-space: nowrap;
     }
     
     .slider-input-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 5px;
     }
     
     .slider {
       flex-grow: 1;
       -webkit-appearance: none;
-      height: 5px;
+      height: 3px;
       background: linear-gradient(to right, #3498db, #9b59b6);
-      border-radius: 5px;
+      border-radius: 3px;
       outline: none;
     }
     
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       background: #3498db;
       cursor: pointer;
@@ -101,72 +92,75 @@
       background-color: #10141f;
       border: 1px solid #3498db;
       color: white;
-      padding: 8px 12px;
-      border-radius: 5px;
-      width: 80px;
+      padding: 4px 6px;
+      border-radius: 3px;
+      width: 40px;
       text-align: center;
+      font-size: 7px;
     }
     
     .results-section {
       background-color: #10141f;
-      border-radius: 10px;
-      padding: 30px;
+      border-radius: 5px;
+      padding: 15px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 300px;
+      min-height: 150px;
+      font-size: 7px;
     }
     
     .results-title {
       color: #3498db;
-      margin-bottom: 30px;
-      font-size: 24px;
+      margin-bottom: 15px;
+      font-size: 12px;
       text-align: center;
     }
     
     .results-value {
-      font-size: 80px;
+      font-size: 40px;
       font-weight: bold;
       color: #3498db;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       text-align: center;
     }
     
     .not-feasible {
       color: #e74c3c;
-      font-size: 40px;
+      font-size: 20px;
     }
     
     .profit-text {
-      font-size: 18px;
-      margin-top: 15px;
+      font-size: 9px;
+      margin-top: 8px;
       color: #3498db;
     }
     
     .chart-section {
       background-color: #10141f;
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 5px;
+      padding: 5px;
       position: relative;
-      min-height: 300px;
+      min-height: 150px;
     }
     
     .button-container {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
+      gap: 8px;
+      margin-top: 10px;
     }
     
     .btn {
       background-color: #10141f;
       color: #3498db;
       border: 1px solid #3498db;
-      padding: 10px 20px;
-      border-radius: 5px;
+      padding: 5px 10px;
+      border-radius: 3px;
       cursor: pointer;
       transition: all 0.3s;
+      font-size: 7px;
     }
     
     .btn:hover {
@@ -181,68 +175,66 @@
   </style>
 </head>
 <body>
-  <div class="scaling-container">
-    <div class="container">
-      <h1>Break-Even Calculator</h1>
-      <div class="calculator-layout">
-        <div class="sliders-section">
-          <div class="slider-container">
-            <label class="slider-label">Cost to Purchase Brace ($)</label>
-            <div class="slider-input-group">
-              <input type="range" min="100" max="300" value="200" class="slider" id="purchasePriceSlider">
-              <input type="text" class="value-input" id="purchasePriceInput" value="200">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <label class="slider-label">Braces per Month</label>
-            <div class="slider-input-group">
-              <input type="range" min="1" max="30" value="5" class="slider" id="bracesPerMonthSlider">
-              <input type="text" class="value-input" id="bracesPerMonthInput" value="5">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <label class="slider-label">Initial Investment ($)</label>
-            <div class="slider-input-group">
-              <input type="range" min="500" max="10000" value="4000" class="slider" id="initialInvestmentSlider">
-              <input type="text" class="value-input" id="initialInvestmentInput" value="4000">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <label class="slider-label">Internal Cost per Brace ($)</label>
-            <div class="slider-input-group">
-              <input type="range" min="5" max="200" value="50" class="slider" id="internalCostSlider">
-              <input type="text" class="value-input" id="internalCostInput" value="50">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <label class="slider-label">Recurring Monthly Overhead ($)</label>
-            <div class="slider-input-group">
-              <input type="range" min="0" max="150" value="50" class="slider" id="monthlyOverheadSlider">
-              <input type="text" class="value-input" id="monthlyOverheadInput" value="50">
-            </div>
+  <div class="container">
+    <h1>Break-Even Calculator</h1>
+    <div class="calculator-layout">
+      <div class="sliders-section">
+        <div class="slider-container">
+          <label class="slider-label">Cost to Purchase Brace ($)</label>
+          <div class="slider-input-group">
+            <input type="range" min="100" max="300" value="200" class="slider" id="purchasePriceSlider">
+            <input type="text" class="value-input" id="purchasePriceInput" value="200">
           </div>
         </div>
         
-        <div class="results-section">
-          <div class="results-title">Break-Even Analysis</div>
-          <div>Months to Break Even:</div>
-          <div class="results-value" id="breakEvenMonths">5</div>
-          <div class="profit-text" id="monthlyProfit">Monthly Profit: $960</div>
+        <div class="slider-container">
+          <label class="slider-label">Braces per Month</label>
+          <div class="slider-input-group">
+            <input type="range" min="1" max="30" value="5" class="slider" id="bracesPerMonthSlider">
+            <input type="text" class="value-input" id="bracesPerMonthInput" value="5">
+          </div>
         </div>
         
-        <div class="chart-section">
-          <canvas id="breakEvenChart"></canvas>
+        <div class="slider-container">
+          <label class="slider-label">Initial Investment ($)</label>
+          <div class="slider-input-group">
+            <input type="range" min="500" max="10000" value="4000" class="slider" id="initialInvestmentSlider">
+            <input type="text" class="value-input" id="initialInvestmentInput" value="4000">
+          </div>
+        </div>
+        
+        <div class="slider-container">
+          <label class="slider-label">Internal Cost per Brace ($)</label>
+          <div class="slider-input-group">
+            <input type="range" min="5" max="200" value="50" class="slider" id="internalCostSlider">
+            <input type="text" class="value-input" id="internalCostInput" value="50">
+          </div>
+        </div>
+        
+        <div class="slider-container">
+          <label class="slider-label">Recurring Monthly Overhead ($)</label>
+          <div class="slider-input-group">
+            <input type="range" min="0" max="150" value="50" class="slider" id="monthlyOverheadSlider">
+            <input type="text" class="value-input" id="monthlyOverheadInput" value="50">
+          </div>
         </div>
       </div>
       
-      <div class="button-container">
-        <button class="btn" id="saveButton">Save Current Values</button>
-        <button class="btn" id="restoreButton">Restore Saved Values</button>
+      <div class="results-section">
+        <div class="results-title">Break-Even Analysis</div>
+        <div>Months to Break Even:</div>
+        <div class="results-value" id="breakEvenMonths">5</div>
+        <div class="profit-text" id="monthlyProfit">Monthly Profit: $960</div>
       </div>
+      
+      <div class="chart-section">
+        <canvas id="breakEvenChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="button-container">
+      <button class="btn" id="saveButton">Save Current Values</button>
+      <button class="btn" id="restoreButton">Restore Saved Values</button>
     </div>
   </div>
 
@@ -276,9 +268,9 @@
 	      label: 'Cumulative Profit/Loss',
 	      data: [],
 	      borderColor: '#3498db',
-	      borderWidth: 3,
+	      borderWidth: 2,
 	      pointBackgroundColor: '#3498db',
-	      pointRadius: 4,
+	      pointRadius: 2,
 	      tension: 0.1,
 	      fill: true,
 	      backgroundColor: 'rgba(52, 152, 219, 0.2)' // Single blue color with opacity
@@ -287,53 +279,73 @@
 	  options: {
 	    responsive: true,
 	    maintainAspectRatio: false,
-	    scales: {
-	      y: {
-		grid: {
-		  color: function(context) {
-		    if (context.tick.value === 0) {
-		      return 'rgba(255, 255, 255, 0.8)'; // Bold white line at zero
-		    }
-		    return 'rgba(255, 255, 255, 0.1)'; // Regular grid lines
-		  },
-		  lineWidth: function(context) {
-		    if (context.tick.value === 0) {
-		      return 2; // Thicker line for zero
-		    }
-		    return 1; // Regular grid line width
-		  }
-		},
-		ticks: {
-		  color: 'rgba(255, 255, 255, 0.7)',
-		  callback: function(value) {
-		    return '$' + value.toLocaleString();
-		  }
-		},
-		title: {
-		  display: true,
-		  text: 'Cumulative Profit/Loss',
-		  color: 'rgba(255, 255, 255, 0.7)'
-		}
-	      },
-	      x: {
-		grid: {
-		  color: 'rgba(255, 255, 255, 0.1)'
-		},
-		ticks: {
-		  color: 'rgba(255, 255, 255, 0.7)'
-		},
-		title: {
-		  display: true,
-		  text: 'Months',
-		  color: 'rgba(255, 255, 255, 0.7)'
-		}
-	      }
-	    },
-	    plugins: {
-	      legend: {
-		display: false
-	      }
-	    }
+            scales: {
+              y: {
+                grid: {
+                  color: function(context) {
+                    if (context.tick.value === 0) {
+                      return 'rgba(255, 255, 255, 0.8)'; // Bold white line at zero
+                    }
+                    return 'rgba(255, 255, 255, 0.1)'; // Regular grid lines
+                  },
+                  lineWidth: function(context) {
+                    if (context.tick.value === 0) {
+                      return 1; // Thicker line for zero, but smaller
+                    }
+                    return 0.5; // Regular grid line width
+                  }
+                },
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: {
+                    size: 6
+                  },
+                  callback: function(value) {
+                    return '$' + value.toLocaleString();
+                  }
+                },
+                title: {
+                  display: true,
+                  text: 'Cumulative Profit/Loss',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: {
+                    size: 6
+                  }
+                }
+              },
+              x: {
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)'
+                },
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: {
+                    size: 6
+                  }
+                },
+                title: {
+                  display: true,
+                  text: 'Months',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  font: {
+                    size: 6
+                  }
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                titleFont: {
+                  size: 8
+                },
+                bodyFont: {
+                  size: 8
+                }
+              }
+            }
 	  }
 	});
     
