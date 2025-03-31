@@ -155,6 +155,22 @@
       height: 100%;
     }
     
+    .tech-sliders {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    
+    .subsection-label {
+      grid-column: span 2;
+      margin-top: 3px;
+      margin-bottom: 2px;
+      color: #9b59b6;
+      font-size: 0.94rem;
+      font-weight: bold;
+    }
+    
     /* Media query for responsive layout */
     @media (max-width: 650px) {
       .calculator-layout {
@@ -163,6 +179,14 @@
       
       .chart-section {
         height: 250px;
+      }
+      
+      .tech-sliders {
+        grid-template-columns: 1fr;
+      }
+      
+      .subsection-label {
+        grid-column: span 1;
       }
     }
   </style>
@@ -176,40 +200,61 @@
           <div class="slider-container">
             <label class="slider-label">Cost to Purchase Brace ($)</label>
             <div class="slider-input-group">
-              <input type="range" min="100" max="300" value="200" class="slider" id="purchasePriceSlider">
-              <input type="text" class="value-input" id="purchasePriceInput" value="200">
+              <input type="range" min="100" max="750" value="430" class="slider" id="purchasePriceSlider">
+              <input type="text" class="value-input" id="purchasePriceInput" value="430">
             </div>
           </div>
           
           <div class="slider-container">
             <label class="slider-label">Braces per Month</label>
             <div class="slider-input-group">
-              <input type="range" min="1" max="30" value="5" class="slider" id="bracesPerMonthSlider">
-              <input type="text" class="value-input" id="bracesPerMonthInput" value="5">
+              <input type="range" min="1" max="30" value="10" class="slider" id="bracesPerMonthSlider">
+              <input type="text" class="value-input" id="bracesPerMonthInput" value="10">
             </div>
           </div>
           
           <div class="slider-container">
             <label class="slider-label">Initial Investment ($)</label>
             <div class="slider-input-group">
-              <input type="range" min="500" max="10000" value="4000" class="slider" id="initialInvestmentSlider">
-              <input type="text" class="value-input" id="initialInvestmentInput" value="4000">
+              <input type="range" min="500" max="10000" value="6000" class="slider" id="initialInvestmentSlider">
+              <input type="text" class="value-input" id="initialInvestmentInput" value="6000">
             </div>
           </div>
           
           <div class="slider-container">
-            <label class="slider-label">Internal Cost per Brace ($)</label>
+            <label class="slider-label">Internal Cost (material) per Brace ($)</label>
             <div class="slider-input-group">
-              <input type="range" min="5" max="200" value="50" class="slider" id="internalCostSlider">
-              <input type="text" class="value-input" id="internalCostInput" value="50">
+              <input type="range" min="5" max="200" value="30" class="slider" id="internalCostSlider">
+              <input type="text" class="value-input" id="internalCostInput" value="30">
             </div>
           </div>
           
           <div class="slider-container">
-            <label class="slider-label">Recurring Monthly Overhead ($)</label>
+            <label class="slider-label">Recurring Monthly Software/Misc Costs ($)</label>
             <div class="slider-input-group">
-              <input type="range" min="0" max="150" value="50" class="slider" id="monthlyOverheadSlider">
+              <input type="range" min="0" max="300" value="50" class="slider" id="monthlyOverheadSlider">
               <input type="text" class="value-input" id="monthlyOverheadInput" value="50">
+            </div>
+          </div>
+          
+          <div class="slider-container">
+            <div class="subsection-label">Technician Costs</div>
+            <div class="tech-sliders">
+              <div>
+                <label class="slider-label">Hours per Week</label>
+                <div class="slider-input-group">
+                  <input type="range" min="0" max="40" value="0" class="slider" id="techHoursSlider">
+                  <input type="text" class="value-input" id="techHoursInput" value="0">
+                </div>
+              </div>
+              
+              <div>
+                <label class="slider-label">Hourly Wage ($)</label>
+                <div class="slider-input-group">
+                  <input type="range" min="20" max="30" value="20" class="slider" id="techWageSlider">
+                  <input type="text" class="value-input" id="techWageInput" value="20">
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -241,6 +286,10 @@
     const internalCostInput = document.getElementById('internalCostInput');
     const monthlyOverheadSlider = document.getElementById('monthlyOverheadSlider');
     const monthlyOverheadInput = document.getElementById('monthlyOverheadInput');
+    const techHoursSlider = document.getElementById('techHoursSlider');
+    const techHoursInput = document.getElementById('techHoursInput');
+    const techWageSlider = document.getElementById('techWageSlider');
+    const techWageInput = document.getElementById('techWageInput');
     
     const breakEvenMonthsDisplay = document.getElementById('breakEvenMonths');
     const monthlyProfitDisplay = document.getElementById('monthlyProfit');
@@ -362,6 +411,8 @@
     syncSliderInput(initialInvestmentSlider, initialInvestmentInput);
     syncSliderInput(internalCostSlider, internalCostInput);
     syncSliderInput(monthlyOverheadSlider, monthlyOverheadInput);
+    syncSliderInput(techHoursSlider, techHoursInput);
+    syncSliderInput(techWageSlider, techWageInput);
     
     // Calculate break-even point and update display
     function calculateBreakEven() {
@@ -370,15 +421,20 @@
       const initialInvestment = parseInt(initialInvestmentInput.value);
       const internalCost = parseInt(internalCostInput.value);
       const monthlyOverhead = parseInt(monthlyOverheadInput.value);
+      const techHours = parseInt(techHoursInput.value);
+      const techWage = parseInt(techWageInput.value);
+      
+      // Calculate technician cost per month (assuming 4.33 weeks per month on average)
+      const techCostPerMonth = techHours * techWage * 4.33;
       
       // Monthly revenue and direct costs
       const revenuePerMonth = purchasePrice * bracesPerMonth;
       const directCostsPerMonth = internalCost * bracesPerMonth;
       
-      // Monthly profit = (revenue - direct costs - overhead) per month
-      const monthlyProfit = revenuePerMonth - directCostsPerMonth - monthlyOverhead;
+      // Monthly profit = (revenue - direct costs - overhead - tech costs) per month
+      const monthlyProfit = revenuePerMonth - directCostsPerMonth - monthlyOverhead - techCostPerMonth;
       
-      // Check if business model is feasible (now includes overhead costs)
+      // Check if business model is feasible
       if (monthlyProfit <= 0) {
         breakEvenMonthsDisplay.textContent = "Not Feasible";
         breakEvenMonthsDisplay.classList.add('not-feasible');
@@ -386,7 +442,7 @@
         if (internalCost >= purchasePrice) {
           monthlyProfitDisplay.textContent = "Cost exceeds selling price";
         } else {
-          monthlyProfitDisplay.textContent = "Overhead exceeds margin";
+          monthlyProfitDisplay.textContent = "Expenses exceed revenue";
         }
         
         // Show negative profit trend in chart
@@ -402,7 +458,7 @@
       
       // Update display
       breakEvenMonthsDisplay.textContent = breakEvenMonths;
-      monthlyProfitDisplay.textContent = `Monthly Profit: $${monthlyProfit}`;
+      monthlyProfitDisplay.textContent = `Monthly Profit: $${Math.round(monthlyProfit)}`;
       
       // Update chart
       updateChart(initialInvestment, monthlyProfit, breakEvenMonths);
