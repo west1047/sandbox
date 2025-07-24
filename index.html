@@ -1,506 +1,476 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Break-Even Calculator</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-      font-size: 0.94rem;
-    }
-    
-    body {
-      background-color: #171b29;
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 2px;
-    }
-    
-    .container {
-      background-color: #1e2436;
-      border-radius: 10px;
-      padding: 10px;
-      width: 100%;
-      max-width: 700px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-    }
-    
-    h1 {
-      text-align: center;
-      color: #3498db;
-      margin-bottom: 10px;
-      font-size: 1.13rem;
-    }
-    
-    .calculator-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    
-    .left-column {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    
-    .sliders-section {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    
-    .slider-container {
-      background-color: #10141f;
-      padding: 6px;
-      border-radius: 6px;
-    }
-    
-    .slider-label {
-      display: block;
-      margin-bottom: 5px;
-      color: #3498db;
-      font-size: 0.88rem;
-    }
-    
-    .slider-input-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .slider {
-      flex-grow: 1;
-      -webkit-appearance: none;
-      height: 4px;
-      background: linear-gradient(to right, #3498db, #9b59b6);
-      border-radius: 4px;
-      outline: none;
-    }
-    
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: #3498db;
-      cursor: pointer;
-    }
-    
-    .value-input {
-      background-color: #10141f;
-      border: 1px solid #3498db;
-      color: white;
-      padding: 3px 5px;
-      border-radius: 4px;
-      width: 50px;
-      text-align: center;
-      font-size: 0.88rem;
-    }
-    
-    .results-section {
-      background-color: #10141f;
-      border-radius: 6px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 94px;
-    }
-    
-    .results-title {
-      color: #3498db;
-      margin-bottom: 6px;
-      font-size: 1rem;
-      text-align: center;
-    }
-    
-    .results-value {
-      font-size: 1.88rem;
-      font-weight: bold;
-      color: #3498db;
-      margin-bottom: 6px;
-      text-align: center;
-    }
-    
-    .not-feasible {
-      color: #e74c3c;
-      font-size: 1.25rem;
-    }
-    
-    .profit-text {
-      font-size: 0.88rem;
-      margin-top: 4px;
-      color: #3498db;
-    }
-    
-    .chart-section {
-      background-color: #10141f;
-      border-radius: 6px;
-      padding: 6px;
-      position: relative;
-      height: 100%;
-    }
-    
-    canvas {
-      width: 100%;
-      height: 100%;
-    }
-    
-    .tech-sliders {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin-top: 8px;
-    }
-    
-    .subsection-label {
-      grid-column: span 2;
-      margin-top: 3px;
-      margin-bottom: 2px;
-      color: #9b59b6;
-      font-size: 0.94rem;
-      font-weight: bold;
-    }
-    
-    /* Media query for responsive layout */
-    @media (max-width: 650px) {
-      .calculator-layout {
-        grid-template-columns: 1fr;
-      }
-      
-      .chart-section {
-        height: 250px;
-      }
-      
-      .tech-sliders {
-        grid-template-columns: 1fr;
-      }
-      
-      .subsection-label {
-        grid-column: span 1;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Mesh Hull Subtraction Tool</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #controls-container {
+            background-color: #2c2c2c;
+            padding: 1rem;
+            border-bottom: 1px solid #444;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+            color: #aaa;
+        }
+        input[type="file"] {
+            border: 1px solid #555;
+            background-color: #333;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        button:not(:disabled):hover {
+            background-color: #0056b3;
+        }
+        #export-button {
+            background-color: #28a745;
+        }
+        #export-button:not(:disabled):hover {
+            background-color: #218838;
+        }
+        #viewer-container {
+            flex-grow: 1;
+            position: relative;
+        }
+        #three-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        #loader-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 10;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Break-Even Calculator</h1>
-    <div class="calculator-layout">
-      <div class="left-column">
-        <div class="sliders-section">
-          <div class="slider-container">
-            <label class="slider-label">Cost to Purchase Brace ($)</label>
-            <div class="slider-input-group">
-              <input type="range" min="100" max="750" value="430" class="slider" id="purchasePriceSlider">
-              <input type="text" class="value-input" id="purchasePriceInput" value="430">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <label class="slider-label">Braces per Month</label>
-            <div class="slider-input-group">
-              <input type="range" min="1" max="30" value="10" class="slider" id="bracesPerMonthSlider">
-              <input type="text" class="value-input" id="bracesPerMonthInput" value="10">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <label class="slider-label">Initial Investment ($)</label>
-            <div class="slider-input-group">
-              <input type="range" min="500" max="10000" value="6000" class="slider" id="initialInvestmentSlider">
-              <input type="text" class="value-input" id="initialInvestmentInput" value="6000">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <label class="slider-label">Internal Cost (material) per Brace ($)</label>
-            <div class="slider-input-group">
-              <input type="range" min="5" max="200" value="30" class="slider" id="internalCostSlider">
-              <input type="text" class="value-input" id="internalCostInput" value="30">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <label class="slider-label">Recurring Monthly Software/Misc Costs ($)</label>
-            <div class="slider-input-group">
-              <input type="range" min="0" max="300" value="50" class="slider" id="monthlyOverheadSlider">
-              <input type="text" class="value-input" id="monthlyOverheadInput" value="50">
-            </div>
-          </div>
-          
-          <div class="slider-container">
-            <div class="subsection-label">Technician Costs</div>
-            <div class="tech-sliders">
-              <div>
-                <label class="slider-label">Hours per Week</label>
-                <div class="slider-input-group">
-                  <input type="range" min="0" max="40" value="0" class="slider" id="techHoursSlider">
-                  <input type="text" class="value-input" id="techHoursInput" value="0">
-                </div>
-              </div>
-              
-              <div>
-                <label class="slider-label">Hourly Wage ($)</label>
-                <div class="slider-input-group">
-                  <input type="range" min="15" max="25" value="20" class="slider" id="techWageSlider">
-                  <input type="text" class="value-input" id="techWageInput" value="20">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="results-section">
-          <div class="results-title">Break-Even Analysis</div>
-          <div style="font-size: 0.88rem;">Months to Break Even:</div>
-          <div class="results-value" id="breakEvenMonths">5</div>
-          <div class="profit-text" id="monthlyProfit">Monthly Profit: $960</div>
-        </div>
-      </div>
-      
-      <div class="chart-section">
-        <canvas id="breakEvenChart"></canvas>
-      </div>
-    </div>
-  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-  <script>
-    // Set up all input and slider elements
-    const purchasePriceSlider = document.getElementById('purchasePriceSlider');
-    const purchasePriceInput = document.getElementById('purchasePriceInput');
-    const bracesPerMonthSlider = document.getElementById('bracesPerMonthSlider');
-    const bracesPerMonthInput = document.getElementById('bracesPerMonthInput');
-    const initialInvestmentSlider = document.getElementById('initialInvestmentSlider');
-    const initialInvestmentInput = document.getElementById('initialInvestmentInput');
-    const internalCostSlider = document.getElementById('internalCostSlider');
-    const internalCostInput = document.getElementById('internalCostInput');
-    const monthlyOverheadSlider = document.getElementById('monthlyOverheadSlider');
-    const monthlyOverheadInput = document.getElementById('monthlyOverheadInput');
-    const techHoursSlider = document.getElementById('techHoursSlider');
-    const techHoursInput = document.getElementById('techHoursInput');
-    const techWageSlider = document.getElementById('techWageSlider');
-    const techWageInput = document.getElementById('techWageInput');
-    
-    const breakEvenMonthsDisplay = document.getElementById('breakEvenMonths');
-    const monthlyProfitDisplay = document.getElementById('monthlyProfit');
-    
-    // Chart setup
-    const ctx = document.getElementById('breakEvenChart').getContext('2d');
-    let breakEvenChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Cumulative Profit/Loss',
-          data: [],
-          borderColor: '#3498db',
-          borderWidth: 2.5,
-          pointBackgroundColor: '#3498db',
-          pointRadius: 2.5,
-          tension: 0.1,
-          fill: true,
-          backgroundColor: 'rgba(52, 152, 219, 0.2)'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            grid: {
-              color: function(context) {
-                if (context.tick.value === 0) {
-                  return 'rgba(255, 255, 255, 0.8)';
+    <div id="controls-container">
+        <div class="control-group">
+            <label for="file-input">1. Load STL or OBJ File</label>
+            <input type="file" id="file-input" accept=".stl,.obj">
+        </div>
+        <div class="control-group">
+            <label>2. Process Meshes</label>
+            <button id="process-button" disabled>Generate Hull & Subtract</button>
+        </div>
+        <div class="control-group">
+            <label>3. Export Result</label>
+            <button id="export-button" disabled>Download Final STL</button>
+        </div>
+    </div>
+
+    <div id="viewer-container">
+        <div id="loader-overlay">
+            <div class="spinner"></div>
+            Processing...
+        </div>
+        <canvas id="three-canvas"></canvas>
+    </div>
+
+    <!-- Import maps for ES6 module imports from CDN -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/",
+            "three-bvh-csg": "https://cdn.jsdelivr.net/npm/three-bvh-csg@0.1.0/dist/index.module.js"
+        }
+    }
+    </script>
+
+    <script type="module">
+        // Import necessary modules
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+        import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+        import { STLExporter } from 'three/addons/exporters/STLExporter.js';
+        import { ConvexHull } from 'three/addons/math/ConvexHull.js';
+        import { SUBTRACTION, Brush, Evaluator } from 'three-bvh-csg';
+
+        // --- Global Variables ---
+        let scene, camera, renderer, controls;
+        let originalMesh, finalMesh;
+        let originalGeometry;
+
+        const processButton = document.getElementById('process-button');
+        const exportButton = document.getElementById('export-button');
+        const fileInput = document.getElementById('file-input');
+        const loaderOverlay = document.getElementById('loader-overlay');
+
+        // --- Core Functions ---
+
+        /**
+         * Initializes the Three.js scene, camera, renderer, and controls.
+         */
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a1a);
+
+            const canvas = document.getElementById('three-canvas');
+            renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 2000);
+            camera.position.set(100, 100, 150);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            directionalLight.position.set(50, 100, 75);
+            scene.add(directionalLight);
+
+            // Build plate grid
+            const gridHelper = new THREE.GridHelper(200, 20, 0x888888, 0x444444);
+            scene.add(gridHelper);
+
+            animate();
+        }
+        
+        /**
+         * Clears the scene of any previously loaded meshes.
+         */
+        function clearScene() {
+            if (originalMesh) {
+                scene.remove(originalMesh);
+                originalMesh.geometry.dispose();
+                originalMesh.material.dispose();
+                originalMesh = null;
+            }
+            if (finalMesh) {
+                scene.remove(finalMesh);
+                finalMesh.geometry.dispose();
+                finalMesh.material.dispose();
+                finalMesh = null;
+            }
+            originalGeometry = null;
+        }
+
+
+        /**
+         * Handles file loading from the file input.
+         * @param {Event} event - The file input change event.
+         */
+        function handleFileLoad(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            clearScene();
+            showLoader(true, "Loading model...");
+
+            const reader = new FileReader();
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+
+            reader.onload = (e) => {
+                const contents = e.target.result;
+                let geometry;
+                try {
+                    if (fileExtension === 'stl') {
+                        geometry = new STLLoader().parse(contents);
+                    } else if (fileExtension === 'obj') {
+                        const object = new OBJLoader().parse(contents);
+                        // Find the first mesh geometry in the OBJ
+                        object.traverse(child => {
+                            if (child.isMesh && !geometry) {
+                                geometry = child.geometry;
+                            }
+                        });
+                    } else {
+                        throw new Error("Unsupported file format. Please use STL or OBJ.");
+                    }
+
+                    if (!geometry) {
+                         throw new Error("Could not find any geometry in the file.");
+                    }
+                    
+                    originalGeometry = geometry;
+                    displayOriginalMesh(originalGeometry);
+                    processButton.disabled = false;
+                    exportButton.disabled = true;
+
+                } catch (error) {
+                    console.error("Error loading mesh:", error);
+                    alert(`Error: ${error.message}`);
+                } finally {
+                    showLoader(false);
                 }
-                return 'rgba(255, 255, 255, 0.1)';
-              },
-              lineWidth: function(context) {
-                if (context.tick.value === 0) {
-                  return 1.9;
+            };
+
+            if (fileExtension === 'stl') {
+                reader.readAsArrayBuffer(contents);
+            } else {
+                reader.readAsText(contents);
+            }
+        }
+        
+        /**
+         * Displays the initially loaded mesh.
+         * @param {THREE.BufferGeometry} geometry - The geometry to display.
+         */
+        function displayOriginalMesh(geometry) {
+            geometry.center(); // Center the geometry for better viewing
+            geometry.computeVertexNormals();
+            
+            const material = new THREE.MeshStandardMaterial({
+                color: 0x007bff,
+                transparent: true,
+                opacity: 0.7,
+                metalness: 0.2,
+                roughness: 0.6
+            });
+            
+            originalMesh = new THREE.Mesh(geometry, material);
+            scene.add(originalMesh);
+            
+            // Focus camera on the new object
+            const box = new THREE.Box3().setFromObject(originalMesh);
+            const size = box.getSize(new THREE.Vector3());
+            const center = box.getCenter(new THREE.Vector3());
+            controls.target.copy(center);
+            camera.position.set(center.x, center.y + size.y * 0.5, center.z + size.length() * 1.5);
+            controls.update();
+        }
+
+        /**
+         * The main processing function that runs all the geometry steps.
+         */
+        async function runProcessing() {
+            if (!originalGeometry) {
+                alert("No model loaded.");
+                return;
+            }
+
+            showLoader(true, "Processing...");
+            
+            // Use a timeout to allow the UI to update before the heavy computation starts
+            await new Promise(resolve => setTimeout(resolve, 50));
+
+            try {
+                // Step 1: Repair/Prepare original mesh (ensure it's indexed)
+                const repairedOriginalGeom = ensureIndexed(originalGeometry.clone());
+                const originalBrush = new Brush(repairedOriginalGeom);
+                originalBrush.updateMatrixWorld();
+
+                // Step 2: Project vertices to create points for the hull
+                console.log("Projecting vertices...");
+                const points = [];
+                const position = repairedOriginalGeom.attributes.position;
+                for (let i = 0; i < position.count; i++) {
+                    const vertex = new THREE.Vector3().fromBufferAttribute(position, i);
+                    points.push(vertex); // Original vertex
+                    points.push(new THREE.Vector3(vertex.x, vertex.y, repairedOriginalGeom.boundingBox.min.z)); // Projected vertex
                 }
-                return 0.6;
-              }
-            },
-            ticks: {
-              color: 'rgba(255, 255, 255, 0.7)',
-              font: {
-                size: 10
-              },
-              callback: function(value) {
-                return '$' + value.toLocaleString();
-              }
-            },
-            title: {
-              display: false
+
+                // Step 3: Calculate the 3D convex hull
+                console.log("Calculating convex hull...");
+                const hull = new ConvexHull().setFromPoints(points);
+                const hullGeom = createGeometryFromConvexHull(hull);
+                hullGeom.computeVertexNormals();
+                
+                // Step 4: Prepare hull for CSG
+                const hullBrush = new Brush(hullGeom);
+                hullBrush.updateMatrixWorld();
+
+                // Step 5: Perform CSG subtraction
+                console.log("Performing boolean subtraction...");
+                const csgEvaluator = new Evaluator();
+                const resultBrush = csgEvaluator.evaluate(hullBrush, originalBrush, SUBTRACTION);
+                
+                if (!resultBrush || !resultBrush.geometry) {
+                    throw new Error("CSG operation failed. The input mesh might be too complex or have issues.");
+                }
+
+                // Step 6: Create and display the final mesh
+                const resultGeometry = resultBrush.geometry;
+                resultGeometry.computeVertexNormals();
+
+                const finalMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x28a745,
+                    metalness: 0.2,
+                    roughness: 0.6
+                });
+                
+                if (finalMesh) scene.remove(finalMesh);
+                finalMesh = new THREE.Mesh(resultGeometry, finalMaterial);
+                
+                // Position the final mesh next to the original for comparison
+                const originalBox = new THREE.Box3().setFromObject(originalMesh);
+                const originalSize = originalBox.getSize(new THREE.Vector3());
+                finalMesh.position.x += originalSize.x * 1.2; // Move it to the side
+
+                scene.add(finalMesh);
+
+                console.log("Processing complete.");
+                exportButton.disabled = false;
+
+            } catch (error) {
+                console.error("Processing failed:", error);
+                alert(`An error occurred during processing: ${error.message}`);
+            } finally {
+                showLoader(false);
             }
-          },
-          x: {
-            grid: {
-              color: 'rgba(255, 255, 255, 0.1)',
-              lineWidth: 0.6
-            },
-            ticks: {
-              color: 'rgba(255, 255, 255, 0.7)',
-              font: {
-                size: 10
-              }
-            },
-            title: {
-              display: false
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            enabled: true,
-            titleFont: {
-              size: 12.5
-            },
-            bodyFont: {
-              size: 11.25
-            },
-            callbacks: {
-              label: function(context) {
-                return '$' + context.parsed.y.toLocaleString();
-              }
-            }
-          }
-        }
-      }
-    });
-    
-    // Sync slider and input values
-    function syncSliderInput(slider, input) {
-      slider.addEventListener('input', () => {
-        input.value = slider.value;
-        calculateBreakEven();
-      });
-      
-      input.addEventListener('change', () => {
-        let value = parseInt(input.value);
-        const min = parseInt(slider.min);
-        const max = parseInt(slider.max);
-        
-        if (isNaN(value)) {
-          value = parseInt(slider.value);
-        } else {
-          value = Math.max(min, Math.min(max, value));
         }
         
-        input.value = value;
-        slider.value = value;
-        calculateBreakEven();
-      });
-    }
-    
-    syncSliderInput(purchasePriceSlider, purchasePriceInput);
-    syncSliderInput(bracesPerMonthSlider, bracesPerMonthInput);
-    syncSliderInput(initialInvestmentSlider, initialInvestmentInput);
-    syncSliderInput(internalCostSlider, internalCostInput);
-    syncSliderInput(monthlyOverheadSlider, monthlyOverheadInput);
-    syncSliderInput(techHoursSlider, techHoursInput);
-    syncSliderInput(techWageSlider, techWageInput);
-    
-    // Calculate break-even point and update display
-    function calculateBreakEven() {
-      const purchasePrice = parseInt(purchasePriceInput.value);
-      const bracesPerMonth = parseInt(bracesPerMonthInput.value);
-      const initialInvestment = parseInt(initialInvestmentInput.value);
-      const internalCost = parseInt(internalCostInput.value);
-      const monthlyOverhead = parseInt(monthlyOverheadInput.value);
-      const techHours = parseInt(techHoursInput.value);
-      const techWage = parseInt(techWageInput.value);
-      
-      // Calculate technician cost per month (assuming 4.35 weeks per month on average)
-      const techCostPerMonth = techHours * techWage * 4.35;
-      
-      // Monthly revenue and direct costs
-      const revenuePerMonth = purchasePrice * bracesPerMonth;
-      const directCostsPerMonth = internalCost * bracesPerMonth;
-      
-      // Monthly profit = (revenue - direct costs - overhead - tech costs) per month
-      const monthlyProfit = revenuePerMonth - directCostsPerMonth - monthlyOverhead - techCostPerMonth;
-      
-      // Check if business model is feasible
-      if (monthlyProfit <= 0) {
-        breakEvenMonthsDisplay.textContent = "Not Feasible";
-        breakEvenMonthsDisplay.classList.add('not-feasible');
-        
-        if (internalCost >= purchasePrice) {
-          monthlyProfitDisplay.textContent = "Cost exceeds selling price";
-        } else {
-          monthlyProfitDisplay.textContent = "Expenses exceed revenue";
+        /**
+         * Ensures a geometry is indexed, which is required for CSG operations.
+         * @param {THREE.BufferGeometry} geometry - The input geometry.
+         * @returns {THREE.BufferGeometry} The indexed geometry.
+         */
+        function ensureIndexed(geometry) {
+            if (!geometry.index) {
+                const position = geometry.attributes.position;
+                const indices = [];
+                for (let i = 0; i < position.count; i++) {
+                    indices.push(i);
+                }
+                geometry.setIndex(indices);
+            }
+            // Also compute bounding box/sphere if they don't exist
+            if (!geometry.boundingBox) geometry.computeBoundingBox();
+            if (!geometry.boundingSphere) geometry.computeBoundingSphere();
+            return geometry;
         }
-        
-        // Show negative profit trend in chart
-        updateNotFeasibleChart(initialInvestment, monthlyProfit);
-        return;
-      }
-      
-      // Remove not-feasible class if present
-      breakEvenMonthsDisplay.classList.remove('not-feasible');
-      
-      // Break-even point (months) = Initial Investment / Monthly Profit
-      const breakEvenMonths = Math.ceil(initialInvestment / monthlyProfit);
-      
-      // Update display
-      breakEvenMonthsDisplay.textContent = breakEvenMonths;
-      monthlyProfitDisplay.textContent = `Monthly Profit: $${Math.round(monthlyProfit)}`;
-      
-      // Update chart
-      updateChart(initialInvestment, monthlyProfit, breakEvenMonths);
-    }
-    
-    function updateChart(initialInvestment, monthlyProfit, breakEvenMonths) {
-      const months = Math.max(10, breakEvenMonths + 3);
-      const labels = Array.from({length: months + 1}, (_, i) => i);
-      const data = [];
-      
-      for (let i = 0; i <= months; i++) {
-        const profit = -initialInvestment + (monthlyProfit * i);
-        data.push(profit);
-      }
-      
-      breakEvenChart.data.labels = labels;
-      breakEvenChart.data.datasets[0].data = data;
-      breakEvenChart.update();
-    }
-    
-    function updateNotFeasibleChart(initialInvestment, monthlyProfit) {
-      const months = 12;
-      const labels = Array.from({length: months + 1}, (_, i) => i);
-      const data = [];
-      
-      for (let i = 0; i <= months; i++) {
-        const profit = -initialInvestment + (monthlyProfit * i);
-        data.push(profit);
-      }
-      
-      breakEvenChart.data.labels = labels;
-      breakEvenChart.data.datasets[0].data = data;
-      breakEvenChart.update();
-    }
-    
-    // Initial calculation
-    calculateBreakEven();
-    
-    // Adjust chart size when window resizes
-    window.addEventListener('resize', function() {
-      breakEvenChart.resize();
-    });
-  </script>
+
+        /**
+         * Creates a BufferGeometry from a ConvexHull object.
+         * @param {ConvexHull} convexHull - The hull object.
+         * @returns {THREE.BufferGeometry}
+         */
+        function createGeometryFromConvexHull(convexHull) {
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            const faces = [];
+
+            convexHull.vertices.forEach(v => vertices.push(v.x, v.y, v.z));
+            convexHull.faces.forEach(f => faces.push(f.a, f.b, f.c));
+
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            geometry.setIndex(faces);
+            return geometry;
+        }
+
+        /**
+         * Exports the final mesh as an STL file.
+         */
+        function exportFinalSTL() {
+            if (!finalMesh) {
+                alert("No final mesh to export.");
+                return;
+            }
+            const exporter = new STLExporter();
+            const result = exporter.parse(finalMesh, { binary: true });
+            const blob = new Blob([result], { type: 'application/octet-stream' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'final_hull_subtraction.stl';
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        /**
+         * Shows or hides the loading overlay.
+         * @param {boolean} show - Whether to show the loader.
+         * @param {string} [text='Processing...'] - The text to display.
+         */
+        function showLoader(show, text = 'Processing...') {
+            loaderOverlay.style.display = show ? 'flex' : 'none';
+            if (show) {
+                loaderOverlay.querySelector('div:last-child').textContent = text;
+            }
+        }
+
+        /**
+         * Animation loop for rendering the scene.
+         */
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        /**
+         * Handles window resizing.
+         */
+        function onWindowResize() {
+            const container = document.getElementById('viewer-container');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        // --- Event Listeners ---
+        window.addEventListener('resize', onWindowResize);
+        fileInput.addEventListener('change', handleFileLoad);
+        processButton.addEventListener('click', runProcessing);
+        exportButton.addEventListener('click', exportFinalSTL);
+
+        // --- Start the application ---
+        init();
+
+    </script>
 </body>
 </html>
